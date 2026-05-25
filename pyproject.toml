@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vgb"
+version = "2.0.0"
+description = "Vigilante do Diario Oficial - Monitoramento inteligente com IA"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.7,<3",
+    "pydantic-settings>=2.2,<3",
+    "httpx[http2]>=0.27,<1",
+    "beautifulsoup4>=4.12,<5",
+    "pymupdf>=1.24",
+    "pytesseract>=0.3,<1",
+    "pillow>=10.3",
+    "sqlalchemy[asyncio]>=2.0,<3",
+    "aiosqlite>=0.20,<1",
+    "alembic>=1.13,<2",
+    "google-genai>=1.0,<2",
+    "openai>=1.30,<2",
+    "tenacity>=8.3,<9",
+    "structlog>=24.2,<25",
+    "click>=8.1,<9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2,<9",
+    "pytest-asyncio>=0.23,<1",
+    "pytest-cov>=5.0,<6",
+    "respx>=0.21,<1",
+    "ruff>=0.4,<1",
+    "mypy>=1.10,<2",
+    "bandit>=1.7,<2",
+    "types-beautifulsoup4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+pythonpath = ["src"]
+addopts = "--strict-markers --cov=src/vgb --cov-report=term-missing --cov-fail-under=20"
+markers = [
+    "integration: marks tests as integration tests",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "ARG"]
+ignore = ["D100", "D101", "D102", "D103", "D104", "D105", "D107", "D205", "D212", "D415"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+plugins = ["pydantic.mypy"]
+[[tool.mypy.overrides]]
+module = ["fitz", "google.genai"]
+ignore_missing_imports = true
+
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vgb"]

@@ -1,0 +1,85 @@
+# Secrets
+.env
+.env.*.local
+
+# SQLite
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+bandit-report.json
+.tox/
+.nox/
+
+# Logs
+*.log
+logs/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-*
+
+# Other Python tooling
+__pypackages__/
+.pype/
+.pytype/
+pip-log.txt
+pip-delete-this-directory.txt
+*.manifest
+*.spec
+
+# Profiling
+*.prof
+*.lprof
+
+# Temp / backup files
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# OS
+.DS_Store
+Thumbs.db
