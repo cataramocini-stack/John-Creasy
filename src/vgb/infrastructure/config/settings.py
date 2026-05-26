@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     openrouter_api_key: SecretStr | None = None
 
     # Fonte de documentos
-    diario_url: str | None = Field(default=None)
-    diario_base_url: str | None = Field(default=None)
+    diario_url: str = Field(..., min_length=10, description="URL da pagina do diario oficial")
+    diario_base_url: str = Field(..., min_length=10, description="URL base do diario oficial")
 
     # Limites
     max_pdfs_per_run: int = Field(default=8, ge=1, le=50)

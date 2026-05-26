@@ -19,6 +19,8 @@ def settings() -> Settings:
         cargo_busca="Cargo",
         telegram_token="fake-token",
         telegram_chat_id="123456",
+        diario_url="https://example.gov.br/jornal/",
+        diario_base_url="https://example.gov.br",
     )
 
 

@@ -27,7 +27,7 @@ class WebDocumentSource(DocumentSource):
         reraise=True,
     )
     async def fetch_links(self, limit: int = 10) -> Sequence[SourceLink]:
-        url = str(self._settings.diario_url)
+        url = self._settings.diario_url
         logger.info("source.fetching", url=url)
 
         response = await self._client.get(url)
@@ -42,7 +42,7 @@ class WebDocumentSource(DocumentSource):
             if ".pdf" not in href.lower():
                 continue
 
-            base = str(self._settings.diario_base_url).rstrip("/")
+            base = self._settings.diario_base_url.rstrip("/")
             full_url = href if href.startswith("http") else base + "/" + href.lstrip("/")
 
             if full_url in seen:

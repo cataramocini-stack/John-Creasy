@@ -90,6 +90,8 @@ jobs:
           VGB_TELEGRAM_CHAT_ID: ${{ secrets.VGB_TELEGRAM_CHAT_ID }}
           VGB_GEMINI_API_KEY: ${{ secrets.VGB_GEMINI_API_KEY }}
           VGB_OPENROUTER_API_KEY: ${{ secrets.VGB_OPENROUTER_API_KEY }}
+          VGB_DIARIO_URL: ${{ secrets.VGB_DIARIO_URL }}
+          VGB_DIARIO_BASE_URL: ${{ secrets.VGB_DIARIO_BASE_URL }}
           VGB_LOG_JSON: "true"
         run: python -m vgb.interface_cli
 
