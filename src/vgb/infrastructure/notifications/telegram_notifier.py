@@ -1,5 +1,8 @@
 """Notificador via Telegram Bot API."""
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 import structlog
 
 from vgb.application.ports.notifier import (
@@ -70,6 +73,7 @@ class TelegramNotifier(Notifier):
         }.get(occ.act_type.value, "📌")
 
         header = "🚨 NOME" if occ.type.value in ("nome", "both") else "🔔 CARGO"
+        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
 
         lines = [
             f"<b>{header} ENCONTRADO</b>",
@@ -86,11 +90,13 @@ class TelegramNotifier(Notifier):
             snippet = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")
             lines.append(f"<code>{snippet}</code>")
 
+        lines.append(f"\n🕐 {now_brt} BRT")
+
         return "\n".join(lines)
 
     def _format_summary(self, payload: SummaryPayload) -> str:
+        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
         lines = [
-            "📄 <b>VGB — Relatorio Diario</b>",
             f"<b>Data:</b> {payload.run_date.strftime('%d/%m/%Y')}",
             "",
             f"PDFs analisados: <b>{payload.total_links}</b>",
@@ -111,9 +117,12 @@ class TelegramNotifier(Notifier):
                 ]
             )
 
+        lines.append(f"\n🕐 {now_brt} BRT")
+
         return "\n".join(lines)
 
     def _format_alert(self, payload: AlertPayload) -> str:
+        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
         lines = [
             "🆘 <b>ALERTA CRITICO — VGB FALHOU</b>",
             f"<b>Data:</b> {payload.run_date.strftime('%d/%m/%Y %H:%M')}",
@@ -131,5 +140,7 @@ class TelegramNotifier(Notifier):
                 "⚠️ O sistema nao conseguiu completar a execucao. Verifique os logs do GitHub Actions.",
             ]
         )
+
+        lines.append(f"\n🕐 {now_brt} BRT")
 
         return "\n".join(lines)

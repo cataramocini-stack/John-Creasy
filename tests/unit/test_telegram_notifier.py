@@ -102,7 +102,7 @@ class TestFormatSummary:
             total_errors=0,
         )
         msg = notifier._format_summary(payload)
-        assert "Relatorio Diario" in msg
+        assert "Data:" in msg
         assert "15/01/2024" in msg
         assert "PDFs analisados: <b>3</b>" in msg
         assert "Ocorrencias: <b>1</b>" in msg
