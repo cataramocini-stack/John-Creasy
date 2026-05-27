@@ -57,12 +57,12 @@ tests/
 ├── __init__.py
 ├── integration/
 │   ├── __init__.py
-│   └── test_source.py
+│   └── test_source.py              # Testes de integração com a fonte web
 └── unit/
     ├── __init__.py
-    ├── test_composite_analyzer.py
-    ├── test_domain.py
-    ├── test_emergency_notifier.py
-    ├── test_monitor_diario.py
-    └── test_telegram_notifier.py
+    ├── test_composite_analyzer.py  # Testes do fallback chain de IA
+    ├── test_domain.py              # Testes de entidades e value objects
+    ├── test_emergency_notifier.py  # Testes do Dead Man's Switch
+    ├── test_monitor_diario.py      # Testes do fluxo principal de orquestração
+    └── test_telegram_notifier.py   # Testes de formatação de mensagens Telegram
 ```
