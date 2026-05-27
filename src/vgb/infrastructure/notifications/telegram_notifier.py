@@ -73,7 +73,7 @@ class TelegramNotifier(Notifier):
         }.get(occ.act_type.value, "📌")
 
         header = "🚨 NOME" if occ.type.value in ("nome", "both") else "🔔 CARGO"
-        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
+        ts = int(datetime.now(ZoneInfo("America/Sao_Paulo")).timestamp())
 
         lines = [
             f"<b>{header} ENCONTRADO</b>",
@@ -90,12 +90,12 @@ class TelegramNotifier(Notifier):
             snippet = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")
             lines.append(f"<code>{snippet}</code>")
 
-        lines.append(f"\n🕐 {now_brt} BRT")
+        lines.append(f"\n<t:{ts}:f>")
 
         return "\n".join(lines)
 
     def _format_summary(self, payload: SummaryPayload) -> str:
-        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
+        ts = int(datetime.now(ZoneInfo("America/Sao_Paulo")).timestamp())
         lines = [
             f"PDFs analisados: <b>{payload.total_links}</b>",
             "",
@@ -117,15 +117,14 @@ class TelegramNotifier(Notifier):
                 ]
             )
 
-        lines.extend(["", f"{now_brt} BRT"])
+        lines.extend(["", f"<t:{ts}:f>"])
 
         return "\n".join(lines)
 
     def _format_alert(self, payload: AlertPayload) -> str:
-        now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
+        ts = int(datetime.now(ZoneInfo("America/Sao_Paulo")).timestamp())
         lines = [
             "🆘 <b>ALERTA CRITICO — VGB FALHOU</b>",
-            f"<b>Data:</b> {payload.run_date.strftime('%d/%m/%Y %H:%M')}",
             "",
             f"<b>Erro:</b> <code>{payload.error_summary}</code>",
         ]
@@ -141,6 +140,6 @@ class TelegramNotifier(Notifier):
             ]
         )
 
-        lines.append(f"\n🕐 {now_brt} BRT")
+        lines.append(f"\n<t:{ts}:f>")
 
         return "\n".join(lines)
