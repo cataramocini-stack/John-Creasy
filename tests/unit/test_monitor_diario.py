@@ -9,7 +9,6 @@ from vgb.application.ports.source import SourceLink
 from vgb.application.use_cases.monitor_diario import MonitorDiarioUseCase
 from vgb.domain.entities import Edition
 from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
-from vgb.domain.value_objects import HashSHA256
 from vgb.infrastructure.config.settings import Settings
 
 

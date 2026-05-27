@@ -53,7 +53,7 @@ class MonitorDiarioUseCase:
 
     async def execute(self) -> dict[str, int]:
         import uuid
-        from datetime import date, datetime
+        from datetime import datetime
         from zoneinfo import ZoneInfo
 
         run_id = str(uuid.uuid4())[:8]
