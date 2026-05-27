@@ -53,11 +53,12 @@ class MonitorDiarioUseCase:
 
     async def execute(self) -> dict[str, int]:
         import uuid
-        from datetime import date
+        from datetime import date, datetime
+        from zoneinfo import ZoneInfo
 
         run_id = str(uuid.uuid4())[:8]
         structlog.contextvars.bind_contextvars(run_id=run_id)
-        today = date.today()
+        today = datetime.now(ZoneInfo("America/Sao_Paulo")).date()
         start_time = time.monotonic()
 
         logger.info("monitor.start", run_id=run_id)

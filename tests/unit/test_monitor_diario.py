@@ -7,7 +7,9 @@ import pytest
 from vgb.application.ports.ai_analyzer import AIAnalysisResult, AIOccurrence
 from vgb.application.ports.source import SourceLink
 from vgb.application.use_cases.monitor_diario import MonitorDiarioUseCase
-from vgb.domain.enums import ActType, AnalysisModel, OccurrenceType
+from vgb.domain.entities import Edition
+from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
+from vgb.domain.value_objects import HashSHA256
 from vgb.infrastructure.config.settings import Settings
 
 
@@ -138,3 +140,44 @@ class TestExecute:
         assert stats["errors"] == 1
         use_case._notifier.send_summary.assert_awaited_once()
         use_case._notifier.send.assert_not_called()
+
+    async def test_so_analisa_pdf_novo_quando_8_ja_existem(self, use_case: MonitorDiarioUseCase) -> None:
+        """Cenario real: 8 PDFs no banco, so 1 e novo. Deve pular os 7 antigos."""
+        antigos = [SourceLink(title=f"DO {i:02d}", url=f"https://exemplo.gov.br/do{i}.pdf") for i in range(1, 8)]
+        novo = SourceLink(title="DO 08", url="https://exemplo.gov.br/do8.pdf")
+        use_case._source.fetch_links.return_value = antigos + [novo]
+
+        # Simula 7 edicoes ja processadas no banco
+        def _make_processed_edition(url: str) -> Edition:
+            return Edition(
+                id=1,
+                url=url,
+                title="",
+                status=EditionStatus.PROCESSED,
+            )
+
+        def _repo_get_by_url(url: str) -> Edition | None:
+            if url == novo.url:
+                return None
+            return _make_processed_edition(url)
+
+        use_case._edition_repo.get_by_url.side_effect = _repo_get_by_url
+        use_case._http.head.return_value = MagicMock(headers={"content-length": "1024"})
+        use_case._http.get.return_value = _make_response(b"pdfdata_novo")
+        use_case._edition_repo.get_by_hash.return_value = None
+        use_case._analyzer.analyze.return_value = AIAnalysisResult(
+            found=False,
+            occurrences=[],
+            model_used=AnalysisModel.OCR_LOCAL.value,
+            processing_time_ms=100,
+        )
+        use_case._analysis_repo.save.side_effect = lambda a: a
+
+        stats = await use_case.execute()
+
+        assert stats["processed"] == 8
+        assert stats["new"] == 1
+        assert stats["found"] == 0
+        # O analyzer deve ser chamado APENAS 1 vez (so para o novo)
+        use_case._analyzer.analyze.assert_awaited_once()
+        use_case._notifier.send_summary.assert_awaited_once()

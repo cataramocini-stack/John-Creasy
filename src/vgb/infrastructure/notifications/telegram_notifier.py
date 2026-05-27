@@ -97,17 +97,17 @@ class TelegramNotifier(Notifier):
     def _format_summary(self, payload: SummaryPayload) -> str:
         now_brt = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M")
         lines = [
-            f"<b>Data:</b> {payload.run_date.strftime('%d/%m/%Y')}",
-            "",
             f"PDFs analisados: <b>{payload.total_links}</b>",
+            "",
             f"Novos: <b>{payload.total_new}</b>",
+            "",
             f"Ocorrencias: <b>{payload.total_found}</b>",
         ]
 
         if payload.total_errors:
-            lines.append(f"Erros: <b>{payload.total_errors}</b> ⚠️")
+            lines.extend(["", f"Erros: <b>{payload.total_errors}</b> ⚠️"])
 
-        lines.append(f"Duracao: <b>{payload.duration_seconds:.1f}s</b>")
+        lines.extend(["", f"Duracao: <b>{payload.duration_seconds:.1f}s</b>"])
 
         if payload.total_found == 0:
             lines.extend(
@@ -117,7 +117,7 @@ class TelegramNotifier(Notifier):
                 ]
             )
 
-        lines.append(f"\n🕐 {now_brt} BRT")
+        lines.extend(["", f"{now_brt} BRT"])
 
         return "\n".join(lines)
 

@@ -75,12 +75,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e "."
 
-      - name: Download previous database artifact
-        uses: actions/download-artifact@v4
+      - name: Restore VGB database cache
+        uses: actions/cache@v4
         with:
-          name: vgb-database
-          path: .
-        continue-on-error: true
+          path: vgb.db
+          key: vgb-database
 
       - name: Run VGB
         env:
@@ -95,9 +94,4 @@ jobs:
           VGB_LOG_JSON: "true"
         run: python -m vgb.interface_cli
 
-      - name: Upload database artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: vgb-database
-          path: vgb.db
-          retention-days: 30
+      # Database is automatically saved by actions/cache post-step
