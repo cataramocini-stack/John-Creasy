@@ -65,7 +65,6 @@ class TestExecute:
                     type=OccurrenceType.BOTH,
                     context="NOMEIA MARIA",
                     confidence=0.95,
-
                 )
             ],
             model_used=AnalysisModel.GEMINI_25_FLASH.value,

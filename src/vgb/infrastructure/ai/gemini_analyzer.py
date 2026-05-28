@@ -26,7 +26,6 @@ class _OccurrenceSchema(BaseModel):
     confidence: float = Field(description="Confianca de 0.0 a 1.0")
 
 
-
 class _ResultSchema(BaseModel):
     found: bool = Field(description="True se encontrou o nome ou cargo em contexto relevante")
     occurrences: list[_OccurrenceSchema] = Field(default_factory=list)
@@ -77,7 +76,6 @@ class GeminiAnalyzer(PDFAnalyzer):
                     context=o.context,
                     page=o.page,
                     confidence=max(0.0, min(1.0, o.confidence)),
-
                 )
                 for o in result.occurrences
             ]
@@ -113,7 +111,6 @@ class GeminiAnalyzer(PDFAnalyzer):
             "- 'found' deve ser true APENAS se o nome ou cargo aparecem em contexto administrativo "
             "  relevante (ex: nomeacao, exoneracao, designacao, portaria), NAO em listas de presenca "
             "  ou simples mencoes.\n"
-
             "- context: em vez de trecho exato, gere um resumo completo em portugues explicando "
             "  o que aconteceu com a pessoa/cargo. Seja detalhado. Exemplo: 'Fulano de Tal foi nomeado para "
             "  o cargo de Apoio de Saneamento mediante portaria nº 123/2026.'\n"

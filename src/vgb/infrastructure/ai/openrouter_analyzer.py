@@ -28,7 +28,6 @@ class _OccurrenceSchema(BaseModel):
     confidence: float = Field(description="Confianca de 0.0 a 1.0")
 
 
-
 class _ResultSchema(BaseModel):
     found: bool = Field(description="True se encontrou o nome ou cargo em contexto relevante")
     occurrences: list[_OccurrenceSchema] = Field(default_factory=list)
@@ -103,7 +102,6 @@ class OpenRouterAnalyzer(PDFAnalyzer):
                     context=o.context,
                     page=o.page,
                     confidence=max(0.0, min(1.0, o.confidence)),
-
                 )
                 for o in result.occurrences
             ]
@@ -134,7 +132,6 @@ class OpenRouterAnalyzer(PDFAnalyzer):
             f"Nome a buscar: {target.nome.valor}\n"
             f"Cargo de interesse: {target.cargo.valor}\n\n"
             f"Instrucoes:\n"
-
             f"- context: em vez de trecho exato, gere um resumo completo em portugues explicando "
             f"o que aconteceu com a pessoa/cargo. Seja detalhado. Exemplo: 'Fulano de Tal foi nomeado para "
             f"o cargo de Apoio de Saneamento mediante portaria nº 123/2026.'\n"
