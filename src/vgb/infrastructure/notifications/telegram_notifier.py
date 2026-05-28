@@ -86,8 +86,8 @@ class TelegramNotifier(Notifier):
             lines.append(f"<b>Pagina:</b> {occ.page_hint}")
 
         if occ.context_snippet:
-            snippet = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")
-            lines.append(f"<code>{snippet}</code>")
+            summary = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")
+            lines.append(f"\n{summary}")
 
         lines.append(f"\nTimestamp: {ts}")
 

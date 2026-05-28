@@ -20,7 +20,10 @@ logger = structlog.get_logger()
 
 class _OccurrenceSchema(BaseModel):
     type: str = Field(description="Um de: NOME, CARGO, BOTH")
-    context: str = Field(description="Trecho exato do documento com ate 200 caracteres")
+    context: str = Field(
+        description="Resumo conciso do ato em linguagem natural. Maximo 300 caracteres. "
+        "Exemplo: 'Gabriel de Oliveira foi nomeado para o cargo de Apoio de Saneamento.'"
+    )
     page: int | None = Field(description="Numero da pagina, se identificavel", default=None)
     confidence: float = Field(description="Confianca de 0.0 a 1.0")
     act_type: str = Field(description="Um de: NOMEACAO, EXONERACAO, DESIGNACAO, LICENCA, OUTRO")
@@ -137,9 +140,10 @@ class OpenRouterAnalyzer(PDFAnalyzer):
             f"Instrucoes:\n"
             f"- act_type: NOMEACAO (nomear/nomeia-se), EXONERACAO (exonerar/exonera-se), "
             f"DESIGNACAO (designar/designa-se), LICENCA (licenca/afastamento), OUTRO (apenas se nao encaixar).\n"
-            f"- context: trecho EXATO de ate 150 caracteres centrado no nome buscado. "
-            f"Se o nome completo no documento tiver sobrenomes adicionais, retorne apenas o trecho "
-            f"com o nome buscado + ate 30 caracteres de contexto em cada lado.\n"
+            f"- context: em vez de trecho exato, gere um resumo conciso em portugues explicando "
+            f"o que aconteceu com a pessoa/cargo. Exemplo: 'Gabriel de Oliveira foi nomeado para "
+            f"o cargo de Agente de Apoio de Saneamento mediante portaria nº 123/2026.' "
+            f"Maximo 300 caracteres.\n"
             f"- Retorne JSON com: found (bool), occurrences (array com type, context, page, confidence, act_type). "
             f"'found' deve ser true apenas para atos administrativos."
         )

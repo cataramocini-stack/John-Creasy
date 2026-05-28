@@ -18,7 +18,10 @@ logger = structlog.get_logger()
 
 class _OccurrenceSchema(BaseModel):
     type: str = Field(description="Um de: NOME, CARGO, BOTH")
-    context: str = Field(description="Trecho exato do documento com ate 200 caracteres")
+    context: str = Field(
+        description="Resumo conciso do ato em linguagem natural. Maximo 300 caracteres. "
+        "Exemplo: 'Gabriel de Oliveira foi nomeado para o cargo de Apoio de Saneamento.'"
+    )
     page: int | None = Field(description="Numero da pagina, se identificavel", default=None)
     confidence: float = Field(description="Confianca de 0.0 a 1.0")
     act_type: str = Field(description="Um de: NOMEACAO, EXONERACAO, DESIGNACAO, LICENCA, OUTRO")
@@ -120,10 +123,10 @@ class GeminiAnalyzer(PDFAnalyzer):
             "DESIGNACAO para designar/designa-se/designacao; "
             "LICENCA para licenca/afastamento; "
             "OUTRO somente se nao se encaixar em nenhum dos anteriores.\n"
-            "- context: trecho EXATO de ate 150 caracteres centrado no nome buscado. "
-            "  Se o nome completo no documento tiver sobrenomes adicionais alem do nome buscado, "
-            "  retorne apenas o trecho contendo o nome buscado + ate 30 caracteres de contexto em cada lado. "
-            "  NAO inclua o nome completo com sobrenomes extras se o nome buscado ja estiver presente.\n"
+            "- context: em vez de trecho exato, gere um resumo conciso em portugues explicando "
+            "  o que aconteceu com a pessoa/cargo. Exemplo: 'Gabriel de Oliveira foi nomeado para "
+            "  o cargo de Agente de Apoio de Saneamento mediante portaria nº 123/2026.' "
+            "  Maximo 300 caracteres.\n"
             "- confidence: certeza de que e um ato administrativo relevante (0.0 a 1.0).\n"
             "- Retorne JSON valido seguindo o schema fornecido."
         )
