@@ -21,7 +21,7 @@ logger = structlog.get_logger()
 class _OccurrenceSchema(BaseModel):
     type: str = Field(description="Um de: NOME, CARGO, BOTH")
     context: str = Field(
-        description="Resumo conciso do ato em linguagem natural. Maximo 300 caracteres. "
+        description="Resumo do ato em linguagem natural. Seja completo. "
         "Exemplo: 'Fulano de Tal foi nomeado para o cargo de Apoio de Saneamento.'"
     )
     page: int | None = Field(description="Numero da pagina, se identificavel", default=None)
@@ -135,10 +135,9 @@ class OpenRouterAnalyzer(PDFAnalyzer):
             f"Cargo de interesse: {target.cargo.valor}\n\n"
             f"Instrucoes:\n"
 
-            f"- context: em vez de trecho exato, gere um resumo conciso em portugues explicando "
-            f"o que aconteceu com a pessoa/cargo. Exemplo: 'Fulano de Tal foi nomeado para "
-            f"o cargo de Apoio de Saneamento mediante portaria nº 123/2026.' "
-            f"Maximo 300 caracteres.\n"
+            f"- context: em vez de trecho exato, gere um resumo completo em portugues explicando "
+            f"o que aconteceu com a pessoa/cargo. Seja detalhado. Exemplo: 'Fulano de Tal foi nomeado para "
+            f"o cargo de Apoio de Saneamento mediante portaria nº 123/2026.'\n"
             f"- Retorne JSON com: found (bool), occurrences (array com type, context, page, confidence, act_type). "
             f"'found' deve ser true apenas para atos administrativos."
         )

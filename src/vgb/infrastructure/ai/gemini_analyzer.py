@@ -19,7 +19,7 @@ logger = structlog.get_logger()
 class _OccurrenceSchema(BaseModel):
     type: str = Field(description="Um de: NOME, CARGO, BOTH")
     context: str = Field(
-        description="Resumo conciso do ato em linguagem natural. Maximo 300 caracteres. "
+        description="Resumo do ato em linguagem natural. Seja completo. "
         "Exemplo: 'Fulano de Tal foi nomeado para o cargo de Apoio de Saneamento.'"
     )
     page: int | None = Field(description="Numero da pagina, se identificavel", default=None)
@@ -114,10 +114,9 @@ class GeminiAnalyzer(PDFAnalyzer):
             "  relevante (ex: nomeacao, exoneracao, designacao, portaria), NAO em listas de presenca "
             "  ou simples mencoes.\n"
 
-            "- context: em vez de trecho exato, gere um resumo conciso em portugues explicando "
-            "  o que aconteceu com a pessoa/cargo. Exemplo: 'Fulano de Tal foi nomeado para "
-            "  o cargo de Apoio de Saneamento mediante portaria nº 123/2026.' "
-            "  Maximo 300 caracteres.\n"
+            "- context: em vez de trecho exato, gere um resumo completo em portugues explicando "
+            "  o que aconteceu com a pessoa/cargo. Seja detalhado. Exemplo: 'Fulano de Tal foi nomeado para "
+            "  o cargo de Apoio de Saneamento mediante portaria nº 123/2026.'\n"
             "- confidence: certeza de que e um ato administrativo relevante (0.0 a 1.0).\n"
             "- Retorne JSON valido seguindo o schema fornecido."
         )
