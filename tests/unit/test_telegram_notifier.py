@@ -51,8 +51,7 @@ class TestFormatOccurrence:
             message_html="",
         )
         msg = notifier._format_occurrence(payload)
-        assert "OCORRENCIA DETECTADA" in msg
-        assert "Pagina:" in msg
+        assert "CARGO DETECTADO" in msg
         assert "NOMEIA-SE JOAO SILVA" in msg
 
     def test_cargo_encontrado(self, settings: Settings) -> None:
@@ -81,7 +80,7 @@ class TestFormatOccurrence:
             message_html="",
         )
         msg = notifier._format_occurrence(payload)
-        assert "OCORRENCIA DETECTADA" in msg
+        assert "CARGO DETECTADO" in msg
         assert "Pagina" not in msg
 
 

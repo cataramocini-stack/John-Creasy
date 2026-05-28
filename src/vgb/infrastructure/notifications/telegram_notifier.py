@@ -67,13 +67,10 @@ class TelegramNotifier(Notifier):
         ts = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%Y-%m-%d %H:%M:%S")
 
         lines = [
-            "⚠️ <b>OCORRENCIA DETECTADA</b>",
+            "⚠️ <b>CARGO DETECTADO</b>",
             "",
             f'<a href="{ed.url}">{ed.title}</a>',
         ]
-
-        if occ.page_hint:
-            lines.append(f"Pagina: <b>{occ.page_hint}</b>")
 
         if occ.context_snippet:
             summary = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")
