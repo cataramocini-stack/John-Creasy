@@ -183,7 +183,6 @@ class MonitorDiarioUseCase:
                     context_snippet=o.context,
                     page_hint=o.page,
                     confidence=o.confidence,
-                    act_type=o.act_type,
                 )
                 for o in ai_result.occurrences
             ],

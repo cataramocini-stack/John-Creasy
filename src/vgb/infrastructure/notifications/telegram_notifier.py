@@ -63,27 +63,17 @@ class TelegramNotifier(Notifier):
         if not occs:
             return ""
 
-        occ = occs[0]  # Mensagem enxuta: foca na melhor ocorrencia
-        act_emoji = {
-            "nomeacao": "🎖",
-            "exoneracao": "⚠",
-            "designacao": "📋",
-            "licenca": "🏖",
-            "outro": "📌",
-        }.get(occ.act_type.value, "📌")
-
-        header = "🚨 NOME" if occ.type.value in ("nome", "both") else "🔔 CARGO"
+        occ = occs[0]
         ts = datetime.now(ZoneInfo("America/Sao_Paulo")).strftime("%Y-%m-%d %H:%M:%S")
 
         lines = [
-            f"<b>{header} ENCONTRADO</b>",
-            f"<b>{occ.act_type.value.upper()}</b> {act_emoji}",
+            "⚠️ <b>OCORRENCIA DETECTADA</b>",
             "",
             f'<a href="{ed.url}">{ed.title}</a>',
         ]
 
         if occ.page_hint:
-            lines.append(f"<b>Pagina:</b> {occ.page_hint}")
+            lines.append(f"Pagina: <b>{occ.page_hint}</b>")
 
         if occ.context_snippet:
             summary = occ.context_snippet.replace("<", "&lt;").replace(">", "&gt;")

@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Self
 
-from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
+from vgb.domain.enums import AnalysisModel, EditionStatus, OccurrenceType
 from vgb.domain.value_objects import Cargo, HashSHA256, Nome
 
 
@@ -56,7 +56,6 @@ class Occurrence:
     context_snippet: str = ""
     page_hint: int | None = None
     confidence: float = 0.0
-    act_type: ActType = ActType.OUTRO
     created_at: datetime = field(default_factory=datetime.utcnow)
 
     def is_significant(self, threshold: float = 0.7) -> bool:

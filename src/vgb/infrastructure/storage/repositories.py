@@ -7,7 +7,7 @@ from sqlalchemy.orm import selectinload
 
 from vgb.application.ports.repository import AnalysisRepository, EditionRepository
 from vgb.domain.entities import Analysis, Edition, Occurrence
-from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
+from vgb.domain.enums import AnalysisModel, EditionStatus, OccurrenceType
 from vgb.domain.value_objects import HashSHA256
 from vgb.infrastructure.storage.database import Database
 from vgb.infrastructure.storage.models import AnalysisORM, EditionORM, OccurrenceORM
@@ -49,7 +49,6 @@ def _occurrence_to_domain(orm: OccurrenceORM) -> Occurrence:
         context_snippet=orm.context_snippet,
         page_hint=orm.page_hint,
         confidence=orm.confidence,
-        act_type=ActType(orm.act_type),
         created_at=orm.created_at,
     )
 
@@ -138,7 +137,6 @@ class SqlAlchemyAnalysisRepository(AnalysisRepository):
                         context_snippet=occ.context_snippet,
                         page_hint=occ.page_hint,
                         confidence=occ.confidence,
-                        act_type=occ.act_type.value,
                     )
                     session.add(occ_orm)
                 await session.commit()

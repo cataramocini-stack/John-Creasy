@@ -5,7 +5,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 
 from vgb.domain.entities import SearchTarget
-from vgb.domain.enums import ActType, OccurrenceType
+from vgb.domain.enums import OccurrenceType
 
 
 @dataclass(frozen=True, slots=True)
@@ -16,7 +16,6 @@ class AIOccurrence:
     context: str
     page: int | None = None
     confidence: float = 0.0
-    act_type: ActType = ActType.OUTRO
 
 
 @dataclass(frozen=True, slots=True)

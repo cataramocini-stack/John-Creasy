@@ -8,7 +8,7 @@ from vgb.application.ports.ai_analyzer import AIAnalysisResult, AIOccurrence
 from vgb.application.ports.source import SourceLink
 from vgb.application.use_cases.monitor_diario import MonitorDiarioUseCase
 from vgb.domain.entities import Edition
-from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
+from vgb.domain.enums import AnalysisModel, EditionStatus, OccurrenceType
 from vgb.infrastructure.config.settings import Settings
 
 
@@ -65,7 +65,7 @@ class TestExecute:
                     type=OccurrenceType.BOTH,
                     context="NOMEIA MARIA",
                     confidence=0.95,
-                    act_type=ActType.NOMEACAO,
+
                 )
             ],
             model_used=AnalysisModel.GEMINI_25_FLASH.value,

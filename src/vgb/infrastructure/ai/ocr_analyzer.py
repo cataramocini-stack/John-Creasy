@@ -8,7 +8,7 @@ import structlog
 
 from vgb.application.ports.ai_analyzer import AIAnalysisResult, AIOccurrence, PDFAnalyzer
 from vgb.domain.entities import SearchTarget
-from vgb.domain.enums import ActType, AnalysisModel, OccurrenceType
+from vgb.domain.enums import AnalysisModel, OccurrenceType
 
 logger = structlog.get_logger()
 
@@ -55,7 +55,6 @@ class OcrAnalyzer(PDFAnalyzer):
                             context=ctx.strip(),
                             page=page_num + 1,
                             confidence=0.5,
-                            act_type=ActType.OUTRO,
                         )
                     )
                     # Para no primeiro hit por pagina para evitar spam

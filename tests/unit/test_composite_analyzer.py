@@ -6,7 +6,7 @@ import pytest
 
 from vgb.application.ports.ai_analyzer import AIAnalysisResult, AIOccurrence
 from vgb.domain.entities import SearchTarget
-from vgb.domain.enums import ActType, OccurrenceType
+from vgb.domain.enums import OccurrenceType
 from vgb.domain.value_objects import Cargo, Nome
 from vgb.infrastructure.ai.composite_analyzer import CompositeAnalyzer
 from vgb.infrastructure.config.settings import Settings
@@ -44,7 +44,6 @@ class TestFallbackChain:
                         type=OccurrenceType.NOME,
                         context="NOMEIA MARIA",
                         confidence=0.9,
-                        act_type=ActType.NOMEACAO,
                     )
                 ],
                 model_used="gemini-2.5-flash",
@@ -78,7 +77,6 @@ class TestFallbackChain:
                         type=OccurrenceType.CARGO,
                         context="Cargo de Engenheiro",
                         confidence=0.8,
-                        act_type=ActType.DESIGNACAO,
                     )
                 ],
                 model_used="openrouter-free",

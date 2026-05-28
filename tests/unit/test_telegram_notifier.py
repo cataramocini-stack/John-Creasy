@@ -6,7 +6,7 @@ import pytest
 
 from vgb.application.ports.notifier import AlertPayload, NotificationPayload, SummaryPayload
 from vgb.domain.entities import Edition
-from vgb.domain.enums import ActType, OccurrenceType
+from vgb.domain.enums import OccurrenceType
 from vgb.domain.value_objects import HashSHA256
 from vgb.infrastructure.config.settings import Settings
 from vgb.infrastructure.notifications.telegram_notifier import TelegramNotifier
@@ -42,7 +42,6 @@ class TestFormatOccurrence:
                     (),
                     {
                         "type": OccurrenceType.BOTH,
-                        "act_type": ActType.NOMEACAO,
                         "confidence": 0.95,
                         "page_hint": 12,
                         "context_snippet": "NOMEIA-SE JOAO SILVA",
@@ -52,8 +51,7 @@ class TestFormatOccurrence:
             message_html="",
         )
         msg = notifier._format_occurrence(payload)
-        assert "NOME ENCONTRADO" in msg
-        assert "NOMEACAO" in msg
+        assert "OCORRENCIA DETECTADA" in msg
         assert "Pagina:" in msg
         assert "NOMEIA-SE JOAO SILVA" in msg
 
@@ -74,7 +72,6 @@ class TestFormatOccurrence:
                     (),
                     {
                         "type": OccurrenceType.CARGO,
-                        "act_type": ActType.DESIGNACAO,
                         "confidence": 0.88,
                         "page_hint": None,
                         "context_snippet": "",
@@ -84,8 +81,7 @@ class TestFormatOccurrence:
             message_html="",
         )
         msg = notifier._format_occurrence(payload)
-        assert "CARGO ENCONTRADO" in msg
-        assert "DESIGNACAO" in msg
+        assert "OCORRENCIA DETECTADA" in msg
         assert "Pagina" not in msg
 
 

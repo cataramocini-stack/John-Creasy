@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from sqlalchemy import JSON, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
-from vgb.domain.enums import ActType, AnalysisModel, EditionStatus, OccurrenceType
+from vgb.domain.enums import AnalysisModel, EditionStatus, OccurrenceType
 
 
 class Base(DeclarativeBase):
@@ -57,7 +57,6 @@ class OccurrenceORM(Base):
     context_snippet: Mapped[str] = mapped_column(Text, default="")
     page_hint: Mapped[int | None] = mapped_column(Integer, nullable=True)
     confidence: Mapped[float] = mapped_column(Float, default=0.0)
-    act_type: Mapped[str] = mapped_column(String(20), default=ActType.OUTRO.value)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(UTC))
 
     analysis: Mapped["AnalysisORM"] = relationship(back_populates="occurrences")

@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 
 from vgb.application.ports.ai_analyzer import AIAnalysisResult, AIOccurrence, PDFAnalyzer
 from vgb.domain.entities import SearchTarget
-from vgb.domain.enums import ActType, AnalysisModel, OccurrenceType
+from vgb.domain.enums import AnalysisModel, OccurrenceType
 from vgb.domain.exceptions import AnaliseIndisponivelError
 from vgb.infrastructure.config import Settings
 
@@ -22,11 +22,11 @@ class _OccurrenceSchema(BaseModel):
     type: str = Field(description="Um de: NOME, CARGO, BOTH")
     context: str = Field(
         description="Resumo conciso do ato em linguagem natural. Maximo 300 caracteres. "
-        "Exemplo: 'Gabriel de Oliveira foi nomeado para o cargo de Apoio de Saneamento.'"
+        "Exemplo: 'Fulano de Tal foi nomeado para o cargo de Apoio de Saneamento.'"
     )
     page: int | None = Field(description="Numero da pagina, se identificavel", default=None)
     confidence: float = Field(description="Confianca de 0.0 a 1.0")
-    act_type: str = Field(description="Um de: NOMEACAO, EXONERACAO, DESIGNACAO, LICENCA, OUTRO")
+
 
 
 class _ResultSchema(BaseModel):
@@ -103,11 +103,7 @@ class OpenRouterAnalyzer(PDFAnalyzer):
                     context=o.context,
                     page=o.page,
                     confidence=max(0.0, min(1.0, o.confidence)),
-                    act_type=(
-                        ActType(o.act_type.lower())
-                        if o.act_type.lower() in {e.value for e in ActType}
-                        else ActType.OUTRO
-                    ),
+
                 )
                 for o in result.occurrences
             ]
@@ -138,11 +134,10 @@ class OpenRouterAnalyzer(PDFAnalyzer):
             f"Nome a buscar: {target.nome.valor}\n"
             f"Cargo de interesse: {target.cargo.valor}\n\n"
             f"Instrucoes:\n"
-            f"- act_type: NOMEACAO (nomear/nomeia-se), EXONERACAO (exonerar/exonera-se), "
-            f"DESIGNACAO (designar/designa-se), LICENCA (licenca/afastamento), OUTRO (apenas se nao encaixar).\n"
+
             f"- context: em vez de trecho exato, gere um resumo conciso em portugues explicando "
-            f"o que aconteceu com a pessoa/cargo. Exemplo: 'Gabriel de Oliveira foi nomeado para "
-            f"o cargo de Agente de Apoio de Saneamento mediante portaria nº 123/2026.' "
+            f"o que aconteceu com a pessoa/cargo. Exemplo: 'Fulano de Tal foi nomeado para "
+            f"o cargo de Apoio de Saneamento mediante portaria nº 123/2026.' "
             f"Maximo 300 caracteres.\n"
             f"- Retorne JSON com: found (bool), occurrences (array com type, context, page, confidence, act_type). "
             f"'found' deve ser true apenas para atos administrativos."

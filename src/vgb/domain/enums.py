@@ -21,16 +21,6 @@ class OccurrenceType(StrEnum):
     BOTH = "both"
 
 
-class ActType(StrEnum):
-    """Tipo de ato administrativo identificado."""
-
-    NOMEACAO = "nomeacao"
-    EXONERACAO = "exoneracao"
-    DESIGNACAO = "designacao"
-    LICENCA = "licenca"
-    OUTRO = "outro"
-
-
 class AnalysisModel(StrEnum):
     """Modelo de IA utilizado na analise."""
 
