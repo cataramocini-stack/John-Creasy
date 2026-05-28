@@ -10,7 +10,7 @@ src/vgb/
 ├── domain/
 │   ├── __init__.py
 │   ├── entities.py                  # Edition, Occurrence, Analysis, SearchTarget
-│   ├── enums.py                     # ActType, AnalysisModel, EditionStatus, OccurrenceType
+│   ├── enums.py                     # AnalysisModel, EditionStatus, OccurrenceType
 │   ├── exceptions.py                # Exceções de domínio
 │   └── value_objects.py             # Nome, Cargo, HashSHA256
 │
