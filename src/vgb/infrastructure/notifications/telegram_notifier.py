@@ -78,7 +78,6 @@ class TelegramNotifier(Notifier):
         lines = [
             f"<b>{header} ENCONTRADO</b>",
             f"<b>{occ.act_type.value.upper()}</b> {act_emoji}",
-            f"<b>Confianca:</b> {occ.confidence:.0%}",
             "",
             f'<a href="{ed.url}">{ed.title}</a>',
         ]

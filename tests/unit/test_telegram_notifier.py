@@ -54,7 +54,6 @@ class TestFormatOccurrence:
         msg = notifier._format_occurrence(payload)
         assert "NOME ENCONTRADO" in msg
         assert "NOMEACAO" in msg
-        assert "95%" in msg
         assert "Pagina:" in msg
         assert "NOMEIA-SE JOAO SILVA" in msg
 
@@ -87,7 +86,6 @@ class TestFormatOccurrence:
         msg = notifier._format_occurrence(payload)
         assert "CARGO ENCONTRADO" in msg
         assert "DESIGNACAO" in msg
-        assert "88%" in msg
         assert "Pagina" not in msg
 
 
